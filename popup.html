@@ -1,88 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note-taking Extension</title>
     <link rel="stylesheet" type="text/css" href="CSS/popup.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
-    <!-- Home Section -->
-    <section id="home-section">
-        <header>
+    <!-- ===== Home Section ===== -->
+    <div id="home-section">
+
+        <div class="header">
             <h2 class="title">Pocket</h2>
             <div class="header-right">
                 <label class="switch" title="on/off">
-                    <input id="main-switch" type="checkbox" aria-label="Main Switch">
+                    <input id="main-switch" type="checkbox">
                     <span class="slider round"></span>
                 </label>
-                <button id="open-setting" title="Info and More" aria-label="Open Settings">
+                <button id="open-setting" title="Info and More">
                     <i class="fa-sharp fa-solid fa-gear"></i>
                 </button>
             </div>
-        </header>
+        </div>
+        <h2>Subject</h2>
+           <div class="container">
+           <div class="input-group">
+                <input type="text" id="newSubjectInput" placeholder="New Subject">
+                <button id="addSubject">Add</button>
+         </div>
+        <div id="subjects"></div>
+        </div>
+  
+   <hr>
+  
+      <h2>Articles</h2>
+        <div class="container">
+        <select id="subjectSelect"></select>
+        <div class="input-group">
+            <input type="text" id="newArticleInput" placeholder="New Article URL">
+            <button id="addArticle">Add</button>
+        </div>
+       <div id="articles"></div>
+       </div>
+       <div class="container">
+       <input type="text" id="newNoteInput" placeholder="Enter note">
+       <button id="addNoteButton">Add Note</button>
+       <div id="notes"></div>
+    </div>
+</div>
+     
 
-        <section>
-            <h2>Subject</h2>
-            <div class="container">
-                <div class="input-group">
-                    <input type="text" id="newSubjectInput" placeholder="New Subject" aria-label="New Subject Input">
-                    <button id="addSubject">Add</button>
-                </div>
-                <div id="subjects"></div>
-            </div>
-        </section>
+    
 
-        <hr>
-
-        <section>
-            <h2>Articles</h2>
-            <div class="container">
-                <select id="subjectSelect" aria-label="Subject Select"></select>
-                <div class="input-group">
-                    <input type="text" id="newArticleInput" placeholder="New Article URL" aria-label="New Article Input">
-                    <button id="addArticle">Add</button>
-                </div>
-                <div id="articles"></div>
-            </div>
-            <div class="container">
-                <input type="text" id="newNoteInput" placeholder="Enter note" aria-label="New Note Input">
-                <button id="addNoteButton">Add Note</button>
-                <div id="notes"></div>
-            </div>
-        </section>
-    </section>
-
-    <!-- Setting Section -->
-    <section id="setting-section" style="display: none;">
-        <header>
+    <!-- ===== setting Section ===== -->
+    <div id="setting-section" style="display: none;">
+        <div class="header">
             <h1 class="title">Setting</h1>
-            <button id="close-setting" aria-label="Close Settings">
+            <button id="close-setting">
                 <i class="fa-sharp fa-solid fa-xmark"></i>
             </button>
-        </header>
+        </div>
 
-        <section class="settings">
+        <div class="settings">
             <div class="options">
                 <p class="footer-text">Highlighter (Beta)</p>
                 <label class="switch" title="on/off">
-                    <input id="highlighter" type="checkbox" aria-label="Highlighter Switch">
+                    <input id="highlighter" type="checkbox">
                     <span class="slider round"></span>
                 </label>
             </div>
 
             <div id="container">
-                <div id="note-list"></div>
-                <footer>
+                <!-- Notes will appear here -->
+                <div id="note-list">
+                </div>
+    
+                <div class="footer">
                     <div class="footer-text">NoteSnap</div>
-                </footer>
+    
+                    <div class="buttons">
+                       
+                    </div>
+                </div>
+    
             </div>
-        </section>
-    </section>
 
+
+ 
+    </div>
     <script src="Scripts/popup.js"></script>
 </body>
 
