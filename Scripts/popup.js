@@ -350,3 +350,33 @@ function displayMessage(msg, index = 0) {
         messageBox[index].innerHTML = originalMessage[index];
     }, 600);
 }
+
+
+//history
+
+// Call sendHighlights where you have the highlights data ready
+addNoteButton.addEventListener('click', function() {
+  const newNote = newNoteInput.value.trim();
+  if (newNote && selectedArticleUrl) {
+      const selectedSubject = subjectSelect.value;
+      const articles = subjects[selectedSubject] || [];
+      let notes = [];
+
+      articles.forEach(article => {
+          if (article.url === selectedArticleUrl) {
+              if (!article.notes) {
+                  article.notes = [];
+              }
+              notes = article.notes;
+          }
+      });
+
+      notes.push(newNote);
+      saveNotes(selectedSubject, selectedArticleUrl, notes);
+      newNoteInput.value = '';
+      displayNotes(selectedArticleUrl);
+
+      // Send highlights to the backend
+      sendHighlights(notes);
+  }
+});

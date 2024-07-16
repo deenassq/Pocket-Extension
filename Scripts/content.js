@@ -62,7 +62,6 @@ function createAddButton(selectedText, event, highlight) {
     document.body.appendChild(addBtn);
 }
 
-// adding or updating notes 
 function updateNotes(selectedText, tabId) {
     // Get all_notes from the storage
     chrome.storage.sync.get({ 'all_notes': {} }, function (result) {
@@ -77,12 +76,16 @@ function updateNotes(selectedText, tabId) {
             all_notes[tabId] = notes;
             // Set updated all_notes to the storage
             chrome.storage.sync.set({ all_notes: all_notes });
+            
+            // Send highlights to the backend
+            sendHighlights(notes);
         }
     });
 
     // Remove selection after updating the notes
     window.getSelection().removeAllRanges();
 }
+
 
 // For highlighting text
 function highlightText() {
@@ -105,4 +108,17 @@ function highlightText() {
             console.log("Cannot highlight the text");
         }
     }
+}
+
+function sendHighlights(highlights) {
+    fetch('http://localhost:5000/highlights', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ highlights: highlights })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 }
