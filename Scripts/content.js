@@ -78,7 +78,7 @@ function updateNotes(selectedText, tabId) {
             chrome.storage.sync.set({ all_notes: all_notes });
             
             // Send highlights to the backend
-            sendHighlights(notes);
+            sendNotesToServer(notes);
         }
     });
 
@@ -108,17 +108,4 @@ function highlightText() {
             console.log("Cannot highlight the text");
         }
     }
-}
-
-function sendHighlights(highlights) {
-    fetch('http://localhost:5000/highlights', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ highlights: highlights })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
 }

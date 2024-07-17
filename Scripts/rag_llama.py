@@ -83,12 +83,14 @@ def build_index():
     return simple_vc_index
 
 def retrieve(question):
+    print('hi')
     index = build_index()
     retriever = index.as_retriever(similarity_top_k=10)
     nodes = retriever.retrieve(question)
     text = ''
     for node in nodes:
         text = text + node.text + "\n\n"
+    print(text)
     return text
         
 def query_history(question):
@@ -112,12 +114,18 @@ def query_history(question):
     return response
 
 def query(question):
-    index = build_index()
-    query_engine = index.as_query_engine()
-    response = query_engine.query(question)
-    return response
+    try:
+        index = build_index()
+        query_engine = index.as_query_engine()
+        response = query_engine.query(question)
+        print(f"Query result: {response}")
+        return response
+    except Exception as e:
+        print(f"Error in query function: {e}")
+        return None
   
     
+
     
     
     
