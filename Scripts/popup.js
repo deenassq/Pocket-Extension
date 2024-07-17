@@ -435,7 +435,7 @@ async function sendNotesToServer(notes) {
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ "all_notes": content })
+          body: JSON.stringify({ "notes": content })
 
       });
       const data = await response.json();
