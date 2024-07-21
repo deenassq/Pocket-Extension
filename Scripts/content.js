@@ -76,11 +76,13 @@ function updateNotes(selectedText, tabId) {
             all_notes[tabId] = notes;
             // Set updated all_notes to the storage
             chrome.storage.sync.set({ all_notes: all_notes });
-            
-    
-     }
-});
+        }
+        console.log(notes);
+        // Send highlights to the backend
+        sendNotesToServer(notes);
+    });
 
+    // Remove selection after updating the notes
     window.getSelection().removeAllRanges();
 }
 

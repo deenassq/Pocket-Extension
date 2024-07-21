@@ -351,3 +351,67 @@ function displayMessage(msg, index = 0) {
     }, 600);
 }
 
+//history
+// handle querying the server and displaying the response
+async function queryServer(question) {
+  try {
+      const response = await fetch('http://127.0.0.1:8000/retrieve', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 'question' : question })
+      });
+
+      if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText} (${response.status})`);
+      }
+
+      const data = await response.json();
+      console.log('Query response:', data.answer);
+
+      if(data.answer) {
+          document.getElementById('answer').innerText = data.answer;
+      } else {
+          document.getElementById('answer').innerText = 'No answer returned from the server.';
+      }
+  } catch (error) {
+      console.error('Error querying server:', error);
+      document.getElementById('answer').innerText = `Error querying server: ${error.message}`;
+  }
+}
+
+function askQuestion() {
+  const questionInput = document.getElementById('questionInput');
+  const question = questionInput.value.trim();
+
+  if (question == '') {
+      document.getElementById('response').innerText = 'Please enter a question.';
+      return;
+  }
+
+  queryServer(question);
+}
+
+document.getElementById('queryButton').addEventListener('click', askQuestion);
+
+/*
+// collect the notes and send them to the server using an API call.
+async function sendNotesToServer(notes) {
+  try {
+      const response = await fetch('http://127.0.0.1:8000/query', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ "notes": content })
+
+      });
+      const data = await response.json();
+      console.log('Notes sent successfully:', data);
+  } catch (error) {
+      console.error('Error sending notes:', error);
+  }
+}
+
+*/
