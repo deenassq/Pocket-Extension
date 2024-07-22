@@ -1,5 +1,5 @@
 // background.js
-
+/*
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === 'sendNotesToServer') {
         sendNotesToServer(request.notes);
@@ -25,3 +25,4 @@ async function sendNotesToServer(notes) {
         console.error('Error sending notes:', error);
     }
 }
+*/

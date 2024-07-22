@@ -79,7 +79,8 @@ function updateNotes(selectedText, tabId) {
         }
         console.log(notes);
         // Send highlights to the background script
-        chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
+       // chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
+       sendNotesToServer(notes);
     });
 
     // Remove selection after updating the notes
@@ -107,5 +108,25 @@ function highlightText() {
         catch {
             console.log("Cannot highlight the text");
         }
+    }
+}
+
+// Function to send notes to the server
+async function sendNotesToServer(notes) {
+
+    console.log('notes in BG ',notes);
+    try {
+        const response = await fetch('http://127.0.0.1:8000/add_nodes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "notes": notes })
+  
+        });
+        const data = await response.json();
+        console.log('Notes sent successfully:', data);
+    } catch (error) {
+        console.error('Error sending notes:', error);
     }
 }
