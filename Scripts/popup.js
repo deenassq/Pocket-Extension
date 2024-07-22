@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log(text);
           const urls = data_query.answer['urls']
   
-          let resultDiv = document.getElementById('answer');
+          let resultDiv = document.getElementById('ans');
   
           // Clear any existing content in resultDiv
           resultDiv.innerHTML = '';
