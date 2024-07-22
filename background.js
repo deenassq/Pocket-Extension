@@ -1,5 +1,12 @@
+// background.js
 
-// collect the notes and send them to the server using an API call.
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === 'sendNotesToServer') {
+        sendNotesToServer(request.notes);
+    }
+});
+
+// Function to send notes to the server
 async function sendNotesToServer(notes) {
     try {
         const response = await fetch('http://127.0.0.1:8000/add_nodes', {
@@ -15,4 +22,4 @@ async function sendNotesToServer(notes) {
     } catch (error) {
         console.error('Error sending notes:', error);
     }
-  }
+}

@@ -78,8 +78,8 @@ function updateNotes(selectedText, tabId) {
             chrome.storage.sync.set({ all_notes: all_notes });
         }
         console.log(notes);
-        // Send highlights to the backend
-        sendNotesToServer(notes);
+        // Send highlights to the background script
+        chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
     });
 
     // Remove selection after updating the notes
