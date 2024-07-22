@@ -33,11 +33,11 @@ h2 {
     margin-top: 0;
     font-size: 1.4em;
     color: #333;
-    border-bottom: 2px solid #ddd; 
+    border-bottom: 2px solid #ddd;
     padding-bottom: 5px;
     text-align: center;
-  }
-  
+}
+
 .header button {
     cursor: pointer;
     width: 20px;
@@ -70,7 +70,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
+}
 
 /* ===== Home Section ===== */
 .header-right {
@@ -142,15 +142,15 @@ input:checked+.slider:before {
     display: flex;
     align-items: center;
     gap: 5px;
-  }
-  
+}
+
 input[type="text"] {
     flex-grow: 1;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 0.9em; 
-  }
+    font-size: 0.9em;
+}
 
 .slider.round {
     border-radius: 20px;
@@ -232,14 +232,14 @@ button {
     color: white;
     cursor: pointer;
     border-radius: 4px;
-    font-size: 0.9em; 
-  }
-  
-  button:hover {
-    background-color: #c26995;
-  }
+    font-size: 0.9em;
+}
 
-  .toggle-read-button {
+button:hover {
+    background-color: #c26995;
+}
+
+.toggle-read-button {
     padding: 5px;
     border: none;
     background-color: #619fe2;
@@ -248,13 +248,13 @@ button {
     border-radius: 4px;
     font-size: 0.8em;
     margin-left: 5px;
-  }
-  
-  .toggle-read-button:hover {
+}
+
+.toggle-read-button:hover {
     background-color: #7d99b8;
-  }
-  
-  
+}
+
+
 .footer {
     display: flex;
     align-items: center;
@@ -310,10 +310,12 @@ button {
     margin-left: 10px;
     color: red;
     cursor: pointer;
-    font-size: 0.8em; /* Smaller font size for delete button */
-    flex-shrink: 0; /* Ensure the delete button does not shrink */
-  }
-  
+    font-size: 0.8em;
+    /* Smaller font size for delete button */
+    flex-shrink: 0;
+    /* Ensure the delete button does not shrink */
+}
+
 /* Scrollbar styles */
 ::-webkit-scrollbar {
     width: 7px;
@@ -399,42 +401,70 @@ select {
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 0.9em; 
-  }
-  
-  .subject, .article {
+    font-size: 0.9em;
+}
+
+.subject,
+.article {
     margin: 5px 0;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f9f9f9;
     display: flex;
-    justify-content: space-between; /* Align delete button to the right */
+    justify-content: space-between;
+    /* Align delete button to the right */
     align-items: center;
     overflow: hidden;
-  }
-  
-  .article {
+}
+
+.article {
     cursor: pointer;
-    white-space: nowrap; /* Ensure the text does not wrap */
-    overflow: hidden; /* Hide overflow */
-    text-overflow: ellipsis; /* Show ellipsis for overflow */
+    white-space: nowrap;
+    /* Ensure the text does not wrap */
+    overflow: hidden;
+    /* Hide overflow */
+    text-overflow: ellipsis;
+    /* Show ellipsis for overflow */
     display: flex;
-    justify-content: space-between; /* Align delete button to the right */
+    justify-content: space-between;
+    /* Align delete button to the right */
     align-items: center;
-    gap: 5px; /* Add some gap between the link and the delete button */
-  }
-  
-  
-  .article a {
-    flex-grow: 1; /* Allow the link to grow */
+    gap: 5px;
+    /* Add some gap between the link and the delete button */
+}
+
+
+.article a {
+    flex-grow: 1;
+    /* Allow the link to grow */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: inherit; /* Inherit text color */
-    text-decoration: none; /* Remove underline */
-  }
-  
-  .article a:hover {
-    text-decoration: underline; /* Underline on hover */
-  }
+    color: inherit;
+    /* Inherit text color */
+    text-decoration: none;
+    /* Remove underline */
+}
+
+.article a:hover {
+    text-decoration: underline;
+    /* Underline on hover */
+}
+
+#question {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+#answer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    /* for a scrollbar when wesbites are more */
+    max-height: 100px;
+    padding: 10px;
+}

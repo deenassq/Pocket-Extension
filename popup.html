@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="CSS/popup.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" />
 
+
 </head>
 
 <body>
@@ -22,37 +23,58 @@
                 <button id="open-setting" title="Info and More">
                     <i class="fa-sharp fa-solid fa-gear"></i>
                 </button>
+                <button id="chatWithHistory" title="BrowseBack">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                        <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                      </svg>
+                </button>
             </div>
         </div>
         <h2>Subject</h2>
-           <div class="container">
-           <div class="input-group">
+        <div class="container">
+            <div class="input-group">
                 <input type="text" id="newSubjectInput" placeholder="New Subject">
                 <button id="addSubject">Add</button>
-         </div>
-        <div id="subjects"></div>
+            </div>
+            <div id="subjects"></div>
         </div>
-  
-   <hr>
-  
-      <h2>Articles</h2>
-        <div class="container">
-        <select id="subjectSelect"></select>
-        <div class="input-group">
-            <input type="text" id="newArticleInput" placeholder="New Article URL">
-            <button id="addArticle">Add</button>
-        </div>
-       <div id="articles"></div>
-       </div>
-       <div class="container">
-       <input type="text" id="newNoteInput" placeholder="Enter note">
-       <button id="addNoteButton">Add Note</button>
-       <div id="notes"></div>
-    </div>
-</div>
-     
 
-    
+        <hr>
+
+        <h2>Articles</h2>
+        <div class="container">
+            <select id="subjectSelect"></select>
+            <div class="input-group">
+                <input type="text" id="newArticleInput" placeholder="New Article URL">
+                <button id="addArticle">Add</button>
+            </div>
+            <div id="articles"></div>
+        </div>
+        <div class="container">
+            <input type="text" id="newNoteInput" placeholder="Enter note">
+            <button id="addNoteButton">Add Note</button>
+            <div id="notes"></div>
+        </div>
+    </div>
+
+
+    <!-- ===== History Section ===== -->
+    <div id="history-section" style="display: none;">
+        <div class="header">
+            <h1 class="title">BrowseBack</h1>
+            <button id="close-chatWithHistory">
+                <i class="fa-sharp fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <h2><br>Ask about anything from your browsing history...</h2>
+        <div class="container">
+            <input type="text" id="question" placeholder="Enter your question">
+            <button id="ask">Ask</button>
+            <div id="answer"></div>
+        </div>
+
+    </div>
 
     <!-- ===== setting Section ===== -->
     <div id="setting-section" style="display: none;">
@@ -76,28 +98,28 @@
                 <!-- Notes will appear here -->
                 <div id="note-list">
                 </div>
-    
+
                 <div class="footer">
                     <div class="footer-text">NoteSnap</div>
-    
+
                     <div class="buttons">
-                       
+
                     </div>
                 </div>
-    
+
             </div>
 
 
- 
-    </div>
 
-    <input type="text" id="questionInput" placeholder="Type your question here">
-    <button id="queryButton">Ask</button>
-    <div id="answer"></div>
+        </div>
 
-    
-    <script src="popup.js"></script>
-    <script src="Scripts/popup.js"></script>
+        <input type="text" id="questionInput" placeholder="Type your question here">
+        <button id="queryButton">Ask</button>
+        <div id="answer"></div>
+
+
+        <script src="popup.js"></script>
+        <script src="Scripts/popup.js"></script>
 </body>
 
 </html>
