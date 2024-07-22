@@ -4,8 +4,14 @@
   "name": "NoteSnap",
   "description": "A Note-Taking extension. NoteSnap makes it easy to keep track of all the important information.",
 
-  "permissions": ["activeTab", "storage", "tabs", "nativeMessaging"],
+  "permissions": ["activeTab", "storage", "tabs", "nativeMessaging","background",
+    "http://127.0.0.1:8000/"],
  
+    "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
   "action": {
     "default_title": "NoteSnap",
     "default_popup": "popup.html",

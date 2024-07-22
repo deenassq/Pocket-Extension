@@ -368,6 +368,7 @@ async function queryServer(question) {
       }
 
       const data = await response.json();
+      console.log('question',question);
       console.log('Query response:', data.answer);
 
       if(data.answer) {

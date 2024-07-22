@@ -8,6 +8,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // Function to send notes to the server
 async function sendNotesToServer(notes) {
+
+    console.log('notes in BG ',notes);
     try {
         const response = await fetch('http://127.0.0.1:8000/add_nodes', {
             method: 'POST',
