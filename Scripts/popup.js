@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
       let content = await getContent(); // wait until promise is resolved
       console.log(content);
       const question = document.getElementById('question').value;
-  
+
       try {
         if (question) {
           const response = await fetch(server_url + '/parse', { // wait until response arrives
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
           });
           const data = await response.text();
           console.log(data);
-  
+
           const response_query = await fetch(server_url + '/query', {
             method: 'POST',
             headers: {
@@ -259,34 +259,40 @@ document.addEventListener('DOMContentLoaded', function () {
           const text = data_query.answer['gpt_answer'];
           console.log(text);
           const urls = data_query.answer['urls']
-  
+
           let resultDiv = document.getElementById('ans');
-  
+
           // Clear any existing content in resultDiv
           resultDiv.innerHTML = '';
-  
-          // Display text
-          resultDiv.innerText = text + "\n\nSources:\n\n";
-  
-          // Display URLs
-          urls.forEach(url => {
-            if (isValidURL(url)) {
-              let anchor = document.createElement('a');
-              anchor.href = url;
-              anchor.textContent = url;
-              anchor.target = '_blank'; // Open link in a new tab
-  
-              // Add the anchor element and a line break to resultDiv
-              resultDiv.appendChild(anchor);
-              resultDiv.appendChild(document.createElement('br'));
-              resultDiv.appendChild(document.createElement('br'));
-            }
-          });
+          if (text) {
+            // Display text
+            resultDiv.innerText = text + "\n\nSources:\n\n";
+
+            // Display URLs
+            urls.forEach(url => {
+              if (isValidURL(url)) {
+                let anchor = document.createElement('a');
+                anchor.href = url;
+                anchor.textContent = url;
+                anchor.target = '_blank'; // Open link in a new tab
+
+                // Add the anchor element and a line break to resultDiv
+                resultDiv.appendChild(anchor);
+                resultDiv.appendChild(document.createElement('br'));
+                resultDiv.appendChild(document.createElement('br'));
+              }
+            });
+
+          } else {
+            resultDiv.innerText = "None of the websites you visited answered the query."
+
+          }
+
         }
       } catch (error) {
         console.log(error.message);
       }
-  
+
     } catch (error) {
       console.error("Error retrieving content:", error);
     }
@@ -452,9 +458,9 @@ async function queryServer(question) {
       throw new Error(`Network response was not ok: ${response.statusText} (${response.status})`);
     }
 
-      const data = await response.json();
-      console.log('question',question);
-      console.log('Query response:', data.answer);
+    const data = await response.json();
+    console.log('question', question);
+    console.log('Query response:', data.answer);
 
     if (data.answer) {
       document.getElementById('answer').innerText = data.answer;
