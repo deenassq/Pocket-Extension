@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
           } else {
-            resultDiv.innerText = "None of the websites you visited answered the query :("
+            resultDiv.innerText = "None of the websites you visited answered the query."
 
           }
 
