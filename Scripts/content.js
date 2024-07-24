@@ -12,7 +12,7 @@ document.addEventListener("mouseup", function (event) {
     if (!selectedText || previousAddBtn) return;
 
     // Checking main switch and highlight status
-    chrome.storage.sync.get({ 'status': true, 'highlight': false }, function (res) {
+    chrome.storage.local.get({ 'status': true, 'highlight': false }, function (res) {
         // If main switch is on then 
         if (res.status) {
             // display the add-note-button where user's cursor is pointing
@@ -64,7 +64,7 @@ function createAddButton(selectedText, event, highlight) {
 
 function updateNotes(selectedText, tabId) {
     // Get all_notes from the storage
-    chrome.storage.sync.get({ 'all_notes': {} }, function (result) {
+    chrome.storage.local.get({ 'all_notes': {} }, function (result) {
         let all_notes = result.all_notes;
         // Select notes for the current tabId
         let notes = all_notes[tabId] || [];
@@ -75,7 +75,7 @@ function updateNotes(selectedText, tabId) {
             // And update all_notes
             all_notes[tabId] = notes;
             // Set updated all_notes to the storage
-            chrome.storage.sync.set({ all_notes: all_notes });
+            chrome.storage.local.set({ all_notes: all_notes });
         }
         console.log(notes);
         // Send highlights to the background script

@@ -303,20 +303,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Setting status of switch when its changes
 mainSwitch.addEventListener('change', function () {
-  chrome.storage.sync.set({ 'status': mainSwitch.checked });
+  chrome.storage.local.set({ 'status': mainSwitch.checked });
   showBadgeText(mainSwitch.checked);
 });
 
 // Setting status of highlighter toggle
 highlighterSwitch.addEventListener("change", function () {
   let switchStatus = highlighterSwitch.checked;
-  chrome.storage.sync.set({ 'highlight': switchStatus });
+  chrome.storage.local.set({ 'highlight': switchStatus });
   let message = (switchStatus) ? "ON" : "OFF";
   displayMessage("Highlighter - " + message, 1);
 });
 
 // Getting previous value of switches/toggle and updating it
-chrome.storage.sync.get({ 'status': true, 'highlight': false }, function (res) {
+chrome.storage.local.get({ 'status': true, 'highlight': false }, function (res) {
   mainSwitch.checked = res.status;
   highlighterSwitch.checked = res.highlight;
   showBadgeText(mainSwitch.checked);
@@ -329,7 +329,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   let tabId = url.hostname.toString();
 
   // Get the all_notes from storage
-  chrome.storage.sync.get({ 'all_notes': {} }, function (result) {
+  chrome.storage.local.get({ 'all_notes': {} }, function (result) {
     let all_notes = result.all_notes;
     // Display all notes of current site
     showNotes(all_notes, tabId);
@@ -367,7 +367,7 @@ function showNotes(all_notes, tabId) {
     deleteBtn.addEventListener("click", function () {
       notes.splice(index, 1);
       all_notes[tabId] = notes;
-      chrome.storage.sync.set({ 'all_notes': all_notes });
+      chrome.storage.local.set({ 'all_notes': all_notes });
       displayMessage("Deleted");
 
       // After deleting a note, display all notes again **(for maintaining proper indices)**
