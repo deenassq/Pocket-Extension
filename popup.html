@@ -1,38 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Note-taking Extension</title>
     <link rel="stylesheet" type="text/css" href="CSS/popup.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" />
-</head>
-<body>
-     <div id="Dashboard-section" style="display: none;">
-        <div class="header">
-            <h1 class="title">Dashboard</h1>
-            <button id="Dashboard-setting">
-                <i class="fa-sharp fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        
-        <h2><br>Highlights Dashboard</h2>
-        <div class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody id="dashboardTable">
-                    <!-- Data will be inserted here -->
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <p id="selectedText">Selected Notes: 0</p>
-        </div>
-    </div>
 
+
+</head>
+
+<body>
     <!-- ===== Home Section ===== -->
     <div id="home-section">
 
@@ -51,7 +28,6 @@
                         <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                       </svg>
                 </button>
-                <button id="open-dashboard" title="Dashboard">Open Dashboard</button>
             </div>
         </div>
         <h2>Subject</h2>
@@ -81,6 +57,7 @@
         </div>
     </div>
 
+
     <!-- ===== History Section ===== -->
     <div id="history-section" style="display: none;">
         <div class="header">
@@ -96,9 +73,10 @@
             <button id="ask">Ask</button>
             <div id="ans"></div>
         </div>
+
     </div>
 
-    <!-- ===== Setting Section ===== -->
+    <!-- ===== setting Section ===== -->
     <div id="setting-section" style="display: none;">
         <div class="header">
             <h1 class="title">Highlighter</h1>
@@ -118,22 +96,30 @@
 
             <div id="container">
                 <!-- Notes will appear here -->
-                <div id="note-list"></div>
+                <div id="note-list">
+                </div>
 
                 <div class="footer">
                     <div class="footer-text">NoteSnap</div>
 
-                    <div class="buttons"></div>
+                    <div class="buttons">
+
+                    </div>
                 </div>
+
             </div>
+
+
+
         </div>
 
         <input type="text" id="questionInput" placeholder="Type your question here">
         <button id="queryButton">Ask</button>
         <div id="answer"></div>
-    </div>
 
-    <script src="popup.js"></script>
-    <script src="Scripts/popup.js"></script>
+
+        <script src="popup.js"></script>
+        <script src="Scripts/popup.js"></script>
 </body>
+
 </html>
