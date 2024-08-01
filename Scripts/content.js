@@ -67,15 +67,15 @@ function updateNotes(selectedText, tabId) {
             all_notes[tabId] = notes;
             chrome.storage.local.set({ all_notes: all_notes });
         }
-        if (tabId in all_notes) {
-            updateNotesToServer(all_notes);
-        } else {
-            sendNotesToServer(all_notes);
-        }
+        // if (tabId in all_notes) {
+        //     updateNotesToServer(all_notes);
+        // } else {
+        //     sendNotesToServer(all_notes);
+        // }
         console.log(notes);
         // Send highlights to the background script
         // chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
-        sendNotesToServer(notes);
+        // sendNotesToServer(notes);
 
 
     });
@@ -88,15 +88,15 @@ function updateNotes(selectedText, tabId) {
 
         for (let key in all_notes_container) {
             if (all_notes_container[key] === selectedText) {
-                // all_notes_container[key] = selectedText;
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            let newKey = (Object.keys(all_notes_container).length + 1);
+            let newKey = getNextKey(all_notes_container);
             all_notes_container[newKey] = selectedText;
+            sendNotesToServer({[newKey]: selectedText});
         }
 
         chrome.storage.local.set({ all_notes_container: all_notes_container });
@@ -170,8 +170,9 @@ if (!urlObj.searchParams.has('q')) {
     storeContentInLocalStorage(web_url, content);
 }
 
-// Function to send notes to the server
+// Function to send a new note to rag
 async function sendNotesToServer(nodes) {
+    console.log(nodes);
     try {
         const response = await fetch('http://127.0.0.1:8000/add_nodes', {
             method: 'POST',
@@ -185,17 +186,16 @@ async function sendNotesToServer(nodes) {
     }
 }
 
-// Function to update notes to the server
-async function updateNotesToServer(nodes) {
-    try {
-        const response = await fetch('http://127.0.0.1:8000/update_nodes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ "url_and_content": nodes })
-        });
-        const data = await response.json();
-        console.log('Notes sent successfully:', data);
-    } catch (error) {
-        console.error('Error sending notes:', error);
+// Function to get the next available key
+function getNextKey(container) {
+    let maxKey = 0;
+    for (let key in container) {
+      if (container.hasOwnProperty(key)) {
+        const numericKey = parseInt(key, 10);
+        if (numericKey > maxKey) {
+          maxKey = numericKey;
+        }
+      }
     }
-}
+    return maxKey + 1;
+  }

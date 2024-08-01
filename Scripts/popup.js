@@ -371,16 +371,17 @@ function showNotes(all_notes, tabId) {
       chrome.storage.local.set({ all_notes: all_notes });
       displayMessage("Deleted");
 
-      // delete from the new storage
+      // delete the note from the new storage
       chrome.storage.local.get('all_notes_container', result => {
 
         let all_notes_container = result.all_notes_container || {};
 
         for (let key in all_notes_container) {
           if (all_notes_container[key] === note) {
-            // If the selectedText matches the value, delete the key-value pair
+            // If the note matches the value, delete the key-value pair
             delete all_notes_container[key];
-            break; // Exit the loop after deleting the matching item
+            updateNotesToServer(key);
+            break;
           }
         }
 
@@ -525,6 +526,22 @@ async function sendNotesToServer(notes) {
 }
 
 */
+
+// Function to delete the note in rag
+async function updateNotesToServer(nodes) {
+  console.log(nodes);
+  try {
+    const response = await fetch('http://127.0.0.1:8000/update_nodes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ "id_note": nodes })
+    });
+    const data = await response.json();
+    console.log('Notes sent successfully:', data);
+  } catch (error) {
+    console.error('Error sending notes:', error);
+  }
+}
 
 // kavya's code
 
