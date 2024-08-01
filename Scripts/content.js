@@ -79,8 +79,32 @@ function updateNotes(selectedText, tabId) {
         }
         console.log(notes);
         // Send highlights to the background script
-       // chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
-       sendNotesToServer(notes);
+        // chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
+        sendNotesToServer(notes);
+
+
+    });
+
+    // create a new storage so notes can be saved and updated individually in rag
+    chrome.storage.local.get('all_notes_container', result => {
+
+        let all_notes_container = result.all_notes_container || {};
+        let found = false;
+
+        for (let key in all_notes_container) {
+            if (all_notes_container[key] === selectedText) {
+                // all_notes_container[key] = selectedText;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            let newKey = (Object.keys(all_notes_container).length + 1);
+            all_notes_container[newKey] = selectedText;
+        }
+
+        chrome.storage.local.set({ all_notes_container: all_notes_container });
     });
 
     // Remove selection after updating the notes
@@ -127,7 +151,7 @@ function showIndicator() {
     indicator.style.right = '5px';
     indicator.style.backgroundColor = '#F0FFFF';
     indicator.style.fontSize = '12px',
-    indicator.style.padding = '2px';
+        indicator.style.padding = '2px';
     indicator.style.zIndex = 9999;
     document.body.appendChild(indicator);
 }
@@ -164,7 +188,7 @@ if (!urlObj.searchParams.has('q')) { // to not store webpages with search result
 // Function to send notes to the server
 async function sendNotesToServer(notes) {
 
-    console.log('notes in BG ',notes);
+    console.log('notes in BG ', notes);
     try {
         const response = await fetch('http://127.0.0.1:8000/add_nodes', {
             method: 'POST',
@@ -172,7 +196,7 @@ async function sendNotesToServer(notes) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ "notes": notes })
-  
+
         });
         const data = await response.json();
         console.log('Notes sent successfully:', data);

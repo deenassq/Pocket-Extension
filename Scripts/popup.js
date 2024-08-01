@@ -370,6 +370,23 @@ function showNotes(all_notes, tabId) {
       chrome.storage.sync.set({ 'all_notes': all_notes });
       displayMessage("Deleted");
 
+      // delete from the new storage
+      chrome.storage.local.get('all_notes_container', result => {
+
+        let all_notes_container = result.all_notes_container || {};
+
+        for (let key in all_notes_container) {
+          if (all_notes_container[key] === note) {
+            // If the selectedText matches the value, delete the key-value pair
+            delete all_notes_container[key];
+            break; // Exit the loop after deleting the matching item
+          }
+        }
+
+        chrome.storage.local.set({ all_notes_container: all_notes_container });
+      });
+
+
       // After deleting a note, display all notes again **(for maintaining proper indices)**
       noteList.innerHTML = "";
       showNotes(all_notes, tabId);
