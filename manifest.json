@@ -11,10 +11,15 @@
     "scripting"
   ],
   "host_permissions": ["http://127.0.0.1:8000/"],
+
+  "background": {
+        "service_worker": "Scripts/background.js"
+    },
+
   "action": {
     "default_title": "NoteSnap",
     "default_popup": "popup.html",
-    "javascript": ["Scripts/popup.js"]
+    "default_icon": "IMG/icon.png"
   },
   "content_scripts": [
     {

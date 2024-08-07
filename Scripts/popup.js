@@ -568,3 +568,77 @@ function isValidURL(text) {
     return false;
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('embedButton').addEventListener('click', () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "getHighlights" }, (response) => {
+              if (chrome.runtime.lastError || !response) {
+                  console.error('Error getting highlights:', chrome.runtime.lastError);
+                  return;
+              }
+              
+              chrome.runtime.sendMessage({ action: "embedTexts", texts: response.texts }, (embedResponse) => {
+                  if (chrome.runtime.lastError || !embedResponse || embedResponse.error) {
+                      console.error('Error embedding texts:', chrome.runtime.lastError || embedResponse.error);
+                      return;
+                  }
+
+                  console.log('Received embeddings:', embedResponse.embeddings);
+                  displayEmbeddings(embedResponse.texts);
+                  findSimilarNotes(embedResponse.embeddings[0]); // Assuming you want to find similar notes for the first embedding
+              });
+          });
+      });
+  });
+
+  document.getElementById('open-embedding-visualization').addEventListener('click', () => {
+      document.getElementById('home-section').style.display = 'none';
+      document.getElementById('embedding-visualization').style.display = 'block';
+  });
+
+  document.getElementById('close-embedding-visualization').addEventListener('click', () => {
+      document.getElementById('embedding-visualization').style.display = 'none';
+      document.getElementById('home-section').style.display = 'block';
+  });
+});
+
+function displayEmbeddings(texts) {
+  let container = document.getElementById('embedding-container');
+  container.innerHTML = '';
+  texts.forEach((text, index) => {
+      let embeddingDiv = document.createElement('div');
+      embeddingDiv.className = 'note';
+      embeddingDiv.innerHTML = `Text: ${text}`;
+      container.appendChild(embeddingDiv);
+  });
+}
+
+function findSimilarNotes(queryEmbedding) {
+  chrome.storage.local.get('embeddings', function (result) {
+      let embeddings = result.embeddings;
+      let similarities = embeddings.map((embedding, index) => {
+          return { index: index, similarity: cosineSimilarity(queryEmbedding, embedding) };
+      });
+      similarities.sort((a, b) => b.similarity - a.similarity);
+      displaySimilarNotes(similarities);
+  });
+}
+
+function cosineSimilarity(a, b) {
+  let dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
+  let magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+  let magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+  return dotProduct / (magnitudeA * magnitudeB);
+}
+
+function displaySimilarNotes(similarities) {
+  let container = document.getElementById('similar-notes-container');
+  container.innerHTML = '';
+  similarities.slice(0, 5).forEach(similarity => {
+      let noteDiv = document.createElement('div');
+      noteDiv.className = 'note';
+      noteDiv.innerHTML = `Note ${similarity.index + 1} (Similarity: ${similarity.similarity.toFixed(2)})`;
+      container.appendChild(noteDiv);
+  });
+}

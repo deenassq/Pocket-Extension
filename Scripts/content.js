@@ -1,4 +1,3 @@
-
 // Using URL's hostname as a key for storing notes
 const tabId = document.URL;
 
@@ -67,22 +66,13 @@ function updateNotes(selectedText, tabId) {
             all_notes[tabId] = notes;
             chrome.storage.local.set({ all_notes: all_notes });
         }
-        // if (tabId in all_notes) {
-        //     updateNotesToServer(all_notes);
-        // } else {
-        //     sendNotesToServer(all_notes);
-        // }
         console.log(notes);
         // Send highlights to the background script
-        // chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
-        // sendNotesToServer(notes);
-
-
+        chrome.runtime.sendMessage({ action: 'sendNotesToServer', notes: notes });
     });
 
     // create a new storage so notes can be saved and updated individually in rag
     chrome.storage.local.get('all_notes_container', result => {
-
         let all_notes_container = result.all_notes_container || {};
         let found = false;
 
@@ -96,7 +86,7 @@ function updateNotes(selectedText, tabId) {
         if (!found) {
             let newKey = getNextKey(all_notes_container);
             all_notes_container[newKey] = selectedText;
-            sendNotesToServer({[newKey]: selectedText});
+            sendNotesToServer({ [newKey]: selectedText });
         }
 
         chrome.storage.local.set({ all_notes_container: all_notes_container });
@@ -124,6 +114,26 @@ function highlightText() {
         }
     }
 }
+
+// Generate the next key for storage
+function getNextKey(obj) {
+    let keys = Object.keys(obj);
+    return keys.length ? Math.max(...keys.map(k => parseInt(k))) + 1 : 1;
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "getHighlights") {
+        chrome.storage.local.get({ 'all_notes': {} }, function (result) {
+            let tabId = document.URL;
+            let notes = result.all_notes[tabId] || [];
+            sendResponse({ texts: notes });
+        });
+
+        return true; // Keep the message channel open for sendResponse
+    }
+});
+
+
 
 // Kavya's code for extracting and storing content
 function extractContent() {

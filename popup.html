@@ -5,14 +5,14 @@
     <title>Note-taking Extension</title>
     <link rel="stylesheet" type="text/css" href="CSS/popup.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" />
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
     <!-- ===== Home Section ===== -->
     <div id="home-section">
-
         <div class="header">
             <h2 class="title">Pocket</h2>
             <div class="header-right">
@@ -28,6 +28,9 @@
                         <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                       </svg>
                 </button>
+                <button id="open-embedding-visualization" title="Embedding Visualization">
+                    <i class="fa-solid fa-chart-line"></i>
+                </button>
             </div>
         </div>
         <h2>Subject</h2>
@@ -38,9 +41,7 @@
             </div>
             <div id="subjects"></div>
         </div>
-
         <hr>
-
         <h2>Articles</h2>
         <div class="container">
             <select id="subjectSelect"></select>
@@ -57,6 +58,20 @@
         </div>
     </div>
 
+    <!-- ===== Embedding Visualization Section ===== -->
+    <div id="embedding-visualization" style="display: none;">
+        <div class="header">
+            <h1 class="title">Embedding Visualization</h1>
+            <button id="close-embedding-visualization">
+                <i class="fa-sharp fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="container">
+            <button id="embedButton">Get Embeddings</button>
+            <div id="embedding-container"></div>
+            <div id="similar-notes-container"></div>
+        </div>
+    </div>
 
     <!-- ===== History Section ===== -->
     <div id="history-section" style="display: none;">
@@ -66,17 +81,15 @@
                 <i class="fa-sharp fa-solid fa-xmark"></i>
             </button>
         </div>
-
         <h2><br>Ask about anything from your browsing history...</h2>
         <div class="container">
             <input type="text" id="question" placeholder="Enter your question">
             <button id="ask">Ask</button>
             <div id="ans"></div>
         </div>
-
     </div>
 
-    <!-- ===== setting Section ===== -->
+    <!-- ===== Setting Section ===== -->
     <div id="setting-section" style="display: none;">
         <div class="header">
             <h1 class="title">Highlighter</h1>
@@ -84,7 +97,6 @@
                 <i class="fa-sharp fa-solid fa-xmark"></i>
             </button>
         </div>
-
         <div class="settings">
             <div class="options">
                 <p class="footer-text">Highlighter (Beta)</p>
@@ -93,33 +105,22 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-
             <div id="container">
                 <!-- Notes will appear here -->
-                <div id="note-list">
-                </div>
-
+                <div id="note-list"></div>
                 <div class="footer">
                     <div class="footer-text">NoteSnap</div>
-
-                    <div class="buttons">
-
-                    </div>
+                    <div class="buttons"></div>
                 </div>
-
             </div>
-
-
-
         </div>
-
         <input type="text" id="questionInput" placeholder="Type your question here">
         <button id="queryButton">Ask</button>
         <div id="answer"></div>
+    </div>
 
-
-        <script src="popup.js"></script>
-        <script src="Scripts/popup.js"></script>
+    <script src="popup.js"></script>
+    <script src="Scripts/popup.js"></script>
 </body>
 
 </html>
