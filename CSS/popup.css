@@ -463,3 +463,33 @@ select {
   max-height: 100px;
   padding: 10px;
 }
+
+
+
+/* Dashboard */
+/* Add these styles to your popup.css or equivalent CSS file */
+#history-table {
+  width: 100%;
+  table-layout: fixed; /* Ensures table cells are of equal width */
+}
+
+#history-table td {
+  overflow: hidden; /* Ensures content doesn't overflow */
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+#history-table a {
+  text-decoration: none;
+  color: inherit; /* Keeps link colors consistent with text color */
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x-axis path, .y-axis path, .x-axis line, .y-axis line {
+  shape-rendering: crispEdges;
+  stroke: #ccc;
+  fill: none;
+}

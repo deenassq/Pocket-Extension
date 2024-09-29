@@ -23,7 +23,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["<all_urls>","http://*/*", "https://*/*"],
       "css": ["CSS/content.css"],
       "js": ["Scripts/content.js"],
       "exclude_matches": ["*://*/*search*"]

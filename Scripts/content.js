@@ -116,6 +116,7 @@ function highlightText() {
 }
 
 // Generate the next key for storage
+// Text Embedding
 function getNextKey(obj) {
     let keys = Object.keys(obj);
     return keys.length ? Math.max(...keys.map(k => parseInt(k))) + 1 : 1;
@@ -132,8 +133,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true; // Keep the message channel open for sendResponse
     }
 });
-
-
 
 // Kavya's code for extracting and storing content
 function extractContent() {
@@ -200,12 +199,12 @@ async function sendNotesToServer(nodes) {
 function getNextKey(container) {
     let maxKey = 0;
     for (let key in container) {
-      if (container.hasOwnProperty(key)) {
-        const numericKey = parseInt(key, 10);
-        if (numericKey > maxKey) {
-          maxKey = numericKey;
+        if (container.hasOwnProperty(key)) {
+            const numericKey = parseInt(key, 10);
+            if (numericKey > maxKey) {
+                maxKey = numericKey;
+            }
         }
-      }
     }
     return maxKey + 1;
-  }
+}

@@ -1,3 +1,4 @@
+let tsne;
 // Elements
 const emptyListMessage = document.getElementById("empty-list-message");
 const messageBox = document.getElementsByClassName("footer-text");
@@ -602,7 +603,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('home-section').style.display = 'block';
   });
 });
-
 function displayEmbeddings(texts) {
   let container = document.getElementById('embedding-container');
   container.innerHTML = '';
@@ -642,3 +642,142 @@ function displaySimilarNotes(similarities) {
       container.appendChild(noteDiv);
   });
 }
+
+
+
+// Dashboard **********************************************************
+// Initial DOM elements
+const dashboardButton = document.getElementById("dashboard-button");
+const dashboardSection = document.getElementById("dashboard-section");
+const closeDashboardButton = document.getElementById("close-dashboard");
+const updateButton = document.getElementById("update-button");
+const deleteHistoryButton = document.getElementById("delete-history-button");
+const historyTableBody = document.getElementById("history-table-body");
+
+// Function to toggle the dashboard visibility
+function toggleDashboardSection() {
+  const isVisible = dashboardSection.style.display !== "block"; // Check if it's not visible
+  dashboardSection.style.display = isVisible ? "block" : "none";
+  homeSection.style.display = isVisible ? "none" : "block";
+
+  if (isVisible) {
+    loadDashboardData();
+  }
+}
+
+// Add event listeners to buttons
+dashboardButton.addEventListener("click", toggleDashboardSection);
+closeDashboardButton.addEventListener("click", toggleDashboardSection);
+updateButton.addEventListener("click", updateVisitData);
+deleteHistoryButton.addEventListener("click", deleteHistory);
+
+// Combined DOMContentLoaded listener
+document.addEventListener('DOMContentLoaded', function () {
+  chrome.runtime.sendMessage({ action: "getCurrentTabUrl" }, (response) => {
+    if (response && response.url) {
+      const currentUrl = response.url;
+
+      // Record the visit
+      recordVisit(currentUrl);
+    }
+  });
+
+  // Load initial dashboard data
+  loadDashboardData();
+});
+
+let lastVisitedUrl = '';
+
+function recordVisit(url) {
+  if (url.startsWith('chrome-extension://')) {
+    return;
+  }
+
+  const history = JSON.parse(localStorage.getItem("history")) || {};
+
+  // Only record the visit if the URL is different from the last visited URL
+  if (url !== lastVisitedUrl) {
+    lastVisitedUrl = url;  // Update last visited URL
+
+    if (!history[url]) {
+      // First visit: set visit time and initialize visit count
+      history[url] = {
+        visitCount: 1,
+        visitTime: new Date().toISOString()  // Record visit time for the first visit
+      };
+    } else {
+      // Subsequent visits: increment the visit count
+      history[url].visitCount += 1;
+    }
+
+    localStorage.setItem("history", JSON.stringify(history));
+  }
+}
+
+// Function to load the dashboard data
+function loadDashboardData() {
+  const history = JSON.parse(localStorage.getItem("history")) || {};
+  historyTableBody.innerHTML = ""; // Clear previous entries
+
+  Object.keys(history).forEach(url => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>
+        <a href="${url}" target="_blank" title="${url}">
+          ${truncateUrl(url, 30)}
+        </a>
+      </td>
+      <td>${new Date(history[url].visitTime).toLocaleString()}</td>
+      <td>${history[url].visitCount}</td>
+    `;
+    historyTableBody.appendChild(row);
+  });
+}
+
+// Function to update visit data
+function updateVisitData() {
+  chrome.runtime.sendMessage({ action: "getCurrentTabUrl" }, (response) => {
+    if (response && response.url) {
+      const currentUrl = response.url;
+
+      // Update the visit with the current URL
+      updateHistory(currentUrl);
+      loadDashboardData(); // Refresh the dashboard data
+    }
+  });
+}
+
+// Function to update visit data in the history
+function updateHistory(url) {
+  chrome.storage.local.get({ history: {} }, function (result) {
+    const history = result.history;
+
+    if (history[url] && history[url].visits.length > 0) {
+      // Update the most recent visit
+      const lastVisit = history[url].visits[history[url].visits.length - 1];
+      // No selectedTextCount update needed
+    } else {
+      // No existing visit, create a new one
+      history[url] = { visits: [{ time: new Date().toISOString() }] };
+    }
+
+    chrome.storage.local.set({ history: history }, function () {
+      console.log(`Updated visit for ${url}`);
+    });
+  });
+}
+
+// Function to delete all history
+function deleteHistory() {
+  if (confirm("Are you sure you want to delete all history? This action cannot be undone.")) {
+    localStorage.removeItem("history");
+    historyTableBody.innerHTML = "";
+    console.log("History deleted");
+  }
+}
+
+// Helper function to truncate long URLs
+function truncateUrl(url, maxLength) {
+  return url.length > maxLength ? `${url.slice(0, maxLength)}...` : url;
+}
+
